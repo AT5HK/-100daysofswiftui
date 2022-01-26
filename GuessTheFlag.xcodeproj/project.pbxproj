@@ -11,6 +11,7 @@
 		12F7218B279F75DD002CCCD2 /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F7218A279F75DD002CCCD2 /* ButtonView.swift */; };
 		12F7218D279F75E2002CCCD2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 12F7218C279F75E2002CCCD2 /* Assets.xcassets */; };
 		12F72190279F75E2002CCCD2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 12F7218F279F75E2002CCCD2 /* Preview Assets.xcassets */; };
+		12F7219927A10120002CCCD2 /* StackingButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F7219827A10120002CCCD2 /* StackingButtonsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +20,7 @@
 		12F7218A279F75DD002CCCD2 /* ButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
 		12F7218C279F75E2002CCCD2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		12F7218F279F75E2002CCCD2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		12F7219827A10120002CCCD2 /* StackingButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackingButtonsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +55,7 @@
 			children = (
 				12F72188279F75DD002CCCD2 /* GuessTheFlagApp.swift */,
 				12F7218A279F75DD002CCCD2 /* ButtonView.swift */,
+				12F7219827A10120002CCCD2 /* StackingButtonsView.swift */,
 				12F7218C279F75E2002CCCD2 /* Assets.xcassets */,
 				12F7218E279F75E2002CCCD2 /* Preview Content */,
 			);
@@ -137,6 +140,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				12F7219927A10120002CCCD2 /* StackingButtonsView.swift in Sources */,
 				12F7218B279F75DD002CCCD2 /* ButtonView.swift in Sources */,
 				12F72189279F75DD002CCCD2 /* GuessTheFlagApp.swift in Sources */,
 			);
