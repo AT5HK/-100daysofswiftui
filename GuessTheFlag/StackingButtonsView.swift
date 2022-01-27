@@ -15,6 +15,9 @@ struct StackingButtonsView: View {
     @State private var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria",
                      "Poland", "Russia", "Spain", "UK", "US"].shuffled()
     @State private var correctAnswer = Int.random(in: 0...2)
+    @State private var flagSelected = 0
+    @State private var guessed = 0
+    @State private var showingReset = false
     
     var body: some View {
         ZStack {
@@ -59,7 +62,7 @@ struct StackingButtonsView: View {
                     Spacer()
                     Spacer()
                     
-                    Text("Score title:")
+                    Text("Score title: \(scoreValue)")
                         .foregroundColor(.white)
                         .font(.largeTitle.bold())
                     Spacer()
@@ -69,19 +72,49 @@ struct StackingButtonsView: View {
             .alert(scoreTitle ,isPresented: $showingScore) {
                 Button("Continue", action: askQuestion)
             } message: {
+                if correctAnswer != flagSelected {
+                    Text("wrong that is \(countries[flagSelected])")
+                }
+                Text("your score is: \(scoreValue)")
+            }
+            .alert(scoreTitle ,isPresented: $showingReset) {
+                Button("Reset", action: resetGame)
+            } message: {
+                Text("8 tries now reset")
+                
                 Text("your score is: \(scoreValue)")
             }
         }
     }
     
+    func resetGame() {
+        showingScore = false
+        scoreTitle = ""
+        scoreValue = 0
+        
+        countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria",
+                         "Poland", "Russia", "Spain", "UK", "US"].shuffled()
+        correctAnswer = Int.random(in: 0...2)
+        flagSelected = 0
+        guessed = 0
+        showingReset = false
+    }
+    
     func flagTapped(_ number: Int) {
-        if number == correctAnswer {
-            scoreTitle = "Correct"
-            scoreValue += 1
+        flagSelected = number
+        guessed += 1
+        
+        if guessed < 8 {
+            if number == correctAnswer {
+                scoreTitle = "Correct"
+                scoreValue += 1
+            } else {
+                scoreTitle = "Wrong"
+            }
+            showingScore = true
         } else {
-            scoreTitle = "Wrong"
+            showingReset = true
         }
-        showingScore = true
     }
     
     func askQuestion() {
