@@ -7,6 +7,30 @@
 
 import SwiftUI
 
+struct FlagImage: View {
+    let imageName: String
+    var body: some View {
+        Image(imageName)
+            .renderingMode(.original)
+            .clipShape(Capsule())
+            .shadow(radius: 5)
+    }
+}
+
+struct LargeBlue: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .font(.largeTitle.weight(.bold))
+            .foregroundColor(.blue)
+    }
+}
+
+extension View {
+    func largeBlueTitle() -> some View {
+        modifier(LargeBlue())
+    }
+}
+
 struct StackingButtonsView: View {
     @State private var showingScore = false
     @State private var scoreTitle = ""
@@ -18,6 +42,13 @@ struct StackingButtonsView: View {
     @State private var flagSelected = 0
     @State private var guessed = 0
     @State private var showingReset = false
+    
+    
+    //button animaations
+    @State private var animationAmount = 0.0
+    @State private var buttonPressed = 0
+    @State private var buttonOpacity = 1.0
+    @State private var buttonSize = 1.0
     
     var body: some View {
         ZStack {
@@ -44,14 +75,24 @@ struct StackingButtonsView: View {
                         }
                             
                         ForEach(0..<3) { number in
+                            
                             Button() {
                                 flagTapped(number)
-                            } label: {
-                                Image(countries[number])
-                                    .renderingMode(.original)
-                                    .clipShape(Capsule())
-                                    .shadow(radius: 5)
+                                buttonPressed = number
+                                withAnimation {
+                                    animationAmount += 360
+                                }
+                                buttonOpacity = 0.25
+                                buttonSize = 0.75
                             }
+                            label: {
+                                    FlagImage(imageName: countries[number])
+                                }
+                            .rotation3DEffect(.degrees(buttonPressed == number ?  animationAmount : 0), axis: (x: 0, y: 1, z: 0))
+                            .opacity(buttonPressed == number ?  1 : buttonOpacity)
+                            .animation(.default, value: buttonOpacity)
+                            .scaleEffect(buttonPressed == number ? 1.0 : buttonSize)
+                            .animation(.default, value: buttonSize)
                         }
                     }
                     .frame(maxWidth: .infinity)
@@ -63,14 +104,18 @@ struct StackingButtonsView: View {
                     Spacer()
                     
                     Text("Score title: \(scoreValue)")
-                        .foregroundColor(.white)
-                        .font(.largeTitle.bold())
+                        .largeBlueTitle()
+                        
                     Spacer()
                 }
                 .padding()
             }
             .alert(scoreTitle ,isPresented: $showingScore) {
-                Button("Continue", action: askQuestion)
+                Button("Continue") {
+                    askQuestion()
+                    buttonOpacity = 1
+                    buttonSize = 1
+                }
             } message: {
                 if correctAnswer != flagSelected {
                     Text("wrong that is \(countries[flagSelected])")
@@ -78,7 +123,11 @@ struct StackingButtonsView: View {
                 Text("your score is: \(scoreValue)")
             }
             .alert(scoreTitle ,isPresented: $showingReset) {
-                Button("Reset", action: resetGame)
+                Button("Reset") {
+                    resetGame()
+                    buttonOpacity = 1
+                    buttonSize = 1
+                }
             } message: {
                 Text("8 tries now reset")
                 
@@ -86,6 +135,7 @@ struct StackingButtonsView: View {
             }
         }
     }
+    
     
     func resetGame() {
         showingScore = false
